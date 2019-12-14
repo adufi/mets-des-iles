@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+
+  site:
+    build:
+      context: ./services/site/project
+      dockerfile: Dockerfile
+    volumes:
+      - './services/site/project:/code'
+    ports:
+      - 8000
+    env_file: 
+      - ./services/site/project/dev.env
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - site
